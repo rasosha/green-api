@@ -8,7 +8,7 @@ import Loader from '../Loader/Loader';
 const Modal = () => {
   const { setIsModal, auth, contacts, setContacts } = useStore((state: ZState) => state);
   const { allChats, addChat } = useHistoryStore((state: HState) => state);
-  const [phoneInput, setPhoneInput] = useState('79933661052');
+  const [phoneInput, setPhoneInput] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -78,7 +78,8 @@ const Modal = () => {
           <p>✕</p>
         </div>
         <div className={style.contacts}>
-          {contacts &&
+          {phoneInput &&
+            contacts &&
             contacts
               .filter(
                 (contact) =>

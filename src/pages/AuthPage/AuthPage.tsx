@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import S from './AuthPage.module.css';
 import useStore, { ZState } from '../../utils/store';
-import { getStateInstance } from '../../utils/apiCalls';
+import { getStateInstance, setSettings } from '../../utils/apiCalls';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader/Loader';
 
@@ -19,12 +19,15 @@ const AuthPage = () => {
     setIsLoading(true);
     const stateInstance = await getStateInstance(authInput);
     if (stateInstance === 'authorized') {
-      setAuth({
+      const auth = {
         stateInstance,
         idInstance: authInput.idInstance,
         apiTokenInstance: authInput.apiTokenInstance,
-      });
+      };
+      setAuth(auth);
       localStorage.auth = JSON.stringify(authInput);
+      const settings = await setSettings(auth);
+      console.log('settings :>> ', settings);
       navigate('/main');
     } else setError(stateInstance);
     setIsLoading(false);
@@ -57,7 +60,10 @@ const AuthPage = () => {
               value={authInput?.apiTokenInstance}
               onChange={(e) => setAuthInput({ ...authInput, apiTokenInstance: e.target.value })}
             />
-            <input type="submit" />
+            <input
+              type="submit"
+              className={S.button}
+            />
             {error && <p className={S.error}>{error}</p>}
           </form>
         )}

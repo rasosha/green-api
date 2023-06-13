@@ -1,8 +1,33 @@
 import { Auth } from './store';
 
 const baseUrl = 'https://api.green-api.com'
-// const idInstance = '1101829447';
-// const apiTokenInstance = '52940488b3914243925bf268291a0b60f6f4e3fe16734645b4'
+
+export const setSettings = async (auth: Auth) => {
+  const method = 'setSettings'
+  try {
+    const response = await fetch(`${baseUrl}/waInstance${auth.idInstance}/${method}/${auth.apiTokenInstance}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(
+        {
+          "outgoingMessageWebhook": "yes",
+          "outgoingAPIMessageWebhook": "yes",
+          "incomingWebhook": "yes",
+          "saveSettings": true
+        }
+      )
+    })
+    if (response.ok) {
+      const settings = await response.json()
+      return settings;
+    }
+  } catch (error) {
+    // console.log('getStateInstance error :>> ', error);
+    return 'check your credentials';
+  }
+}
 
 export const getStateInstance = async (auth: Auth) => {
   const method = 'getStateInstance'

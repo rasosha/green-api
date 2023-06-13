@@ -11,6 +11,7 @@ import {
 import useHistoryStore, { HState, IMessage, Notification } from '../../utils/historyStore';
 import timeFormat from '../../utils/timeFormat';
 import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
+import sound from '../../assets/notification.mp3';
 
 interface NewMessage {
   id: number;
@@ -50,7 +51,7 @@ const ChatSection = () => {
         getHistory();
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedChat]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -77,7 +78,7 @@ const ChatSection = () => {
               body: getMsg,
             });
             if (getMsg.type === 'incoming') {
-              const audio = new Audio('./src/assets/notification.mp3');
+              const audio = new Audio(sound);
               audio.play();
             }
           }
