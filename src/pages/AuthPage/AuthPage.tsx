@@ -48,6 +48,8 @@ const AuthPage = () => {
               id="IdInstance"
               className={S.input}
               placeholder="IdInstance"
+              required
+              pattern="[0-9]{10}"
               value={authInput?.idInstance}
               onChange={(e) => setAuthInput({ ...authInput, idInstance: e.target.value })}
             />
@@ -55,6 +57,8 @@ const AuthPage = () => {
               type="text"
               id="ApiTokenInstance"
               placeholder="ApiTokenInstance"
+              required
+              pattern="[a-z0-9]{20-60}"
               className={S.input}
               value={authInput?.apiTokenInstance}
               onChange={(e) => setAuthInput({ ...authInput, apiTokenInstance: e.target.value })}
