@@ -83,7 +83,8 @@ const Modal = () => {
             contacts
               .filter(
                 (contact) =>
-                  (contact.id.includes(phoneInput) || contact.name.includes(phoneInput)) &&
+                  (contact.id.includes(phoneInput) ||
+                    contact.name.toLowerCase().includes(phoneInput.toLowerCase())) &&
                   contact.type === 'user',
               )
               .map((contact) => (
