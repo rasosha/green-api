@@ -14,6 +14,7 @@ const WelcomePage = () => {
           <a
             className={style.link}
             href="https://drive.google.com/file/d/1c3HDbZJuPdfv7FaUYo8kEMzsfM2AkKwI/view"
+            target="_blank"
           >
             по ссылке
           </a>
@@ -25,6 +26,7 @@ const WelcomePage = () => {
           <a
             href="https://green-api.com/"
             className={style.link}
+            target="_blank"
           >
             green-api.com
           </a>
