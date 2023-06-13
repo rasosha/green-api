@@ -7,22 +7,24 @@ const WelcomePage = () => {
   return (
     <main className={style.wrapper}>
       <div className={style.textBox}>
-        <p>Приветствую!</p>
-        <p>Это тестовое задание на должность "Фронтенд разработчик React"</p>
+        <p>Greetings!</p>
+        <p>This is a test task for the "Frontend React Developer" position</p>
         <p>
-          Подробнее о задании можно прочитать
+          You can read more about the task
           <a
             className={style.link}
             href="https://drive.google.com/file/d/1c3HDbZJuPdfv7FaUYo8kEMzsfM2AkKwI/view"
             target="_blank"
           >
-            по ссылке
+            here.
           </a>
-          <p>
-            {
-              'Для авторизации необходимо ввести IdInstance и ApiTokenInstance, которые нужно получить на сайте '
-            }
-          </p>
+        </p>
+        <p>
+          For authorization, you must enter <span className={style.i}>"IdInstance"</span> and{' '}
+          <span className={style.i}>"ApiTokenInstance"</span>
+        </p>
+        <p>
+          To get them go to
           <a
             href="https://green-api.com/"
             className={style.link}
@@ -30,14 +32,14 @@ const WelcomePage = () => {
           >
             green-api.com
           </a>
-          <p>Если у вас уже имеются эти данные, то можете перейти на страницу авторизации</p>
-          <button
-            className={style.button}
-            onClick={() => navigate('/auth')}
-          >
-            Авторизация
-          </button>
         </p>
+        <p>If you already have these data, you can go to the authorization page</p>
+        <button
+          className={style.button}
+          onClick={() => navigate('/auth')}
+        >
+          Authorization
+        </button>
       </div>
     </main>
   );

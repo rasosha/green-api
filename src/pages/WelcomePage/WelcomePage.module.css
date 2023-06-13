@@ -8,6 +8,7 @@
 .textBox {
   min-width: 320px;
   max-width: 768px;
+  font-size: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,6 +17,8 @@
   line-height: 24px;
   padding: 20px;
   background-color: #333;
+  gap: 20px;
+  border-radius: 20px;
 }
 
 .link {
@@ -27,5 +30,8 @@
 
 .button {
   padding: 10px 20px;
-  margin-top: 20px;
+}
+
+.i {
+  font-style: oblique;
 }

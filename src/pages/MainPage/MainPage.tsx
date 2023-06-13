@@ -9,12 +9,16 @@ import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
 import useHistoryStore, { HState } from '../../utils/historyStore';
 
 const MainPage = () => {
-  const { auth, setAuth, setIsModal } = useStore((state: ZState) => state);
+  const { auth, setAuth, setIsModal, selectedChat, setSelectedChat } = useStore(
+    (state: ZState) => state,
+  );
   const { allChats, removeChat } = useHistoryStore((state: HState) => state);
   const navigate = useNavigate();
   const [isBtnMenuOpen, setIsBtnMenuOpen] = useState(false);
+
   const exit = () => {
     setAuth({ stateInstance: 'notAuthorized', apiTokenInstance: '', idInstance: '' });
+    setSelectedChat('');
   };
   const clearAuth = () => {
     localStorage.removeItem('auth');
@@ -22,6 +26,8 @@ const MainPage = () => {
   const clearChats = () => {
     localStorage.removeItem('allChats');
     allChats.map((item) => removeChat({ chatId: item.chatId }));
+    setSelectedChat('');
+    console.log('selectedChat :>> ', selectedChat);
   };
 
   useEffect(() => {
@@ -52,19 +58,19 @@ const MainPage = () => {
                   className={S.buttonOption}
                   onClick={() => exit()}
                 >
-                  Выйти
-                </button>
-                <button
-                  className={S.buttonOption}
-                  onClick={() => clearAuth()}
-                >
-                  Удалить данные
+                  Exit
                 </button>
                 <button
                   className={S.buttonOption}
                   onClick={() => clearChats()}
                 >
-                  Удалить чаты
+                  Clear chats
+                </button>
+                <button
+                  className={S.buttonOption}
+                  onClick={() => clearAuth()}
+                >
+                  Clear auth data
                 </button>
                 <button
                   className={S.buttonOption}
@@ -74,7 +80,7 @@ const MainPage = () => {
                     exit();
                   }}
                 >
-                  Очистить данные и выйти
+                  Clear all data and exit
                 </button>
               </div>
             )}

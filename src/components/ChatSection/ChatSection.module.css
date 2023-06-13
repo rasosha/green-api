@@ -43,12 +43,22 @@
 
 .inputArea {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  background-color: #202c33;
 }
 
 .input {
   flex-grow: 1;
-  height: 50px;
+  height: 40px;
+  background-color: #2a3942;
+  border: none;
+  border-radius: 10px;
+  margin: 10px;
+  color: white;
+  padding-left: 20px;
+  outline: none;
 }
 
 .messages {
@@ -124,4 +134,28 @@
 }
 .buttonOption {
   align-self: flex-end;
+  margin: 5px;
+  padding: 10px;
+  background-color: #dbdbdb;
+  border: none;
+}
+.buttonOption:hover {
+  cursor: pointer;
+  background-color: #52a092;
+}
+
+.submit {
+  background: none;
+  border: none;
+
+  opacity: 0.5;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.submit:hover {
+  background-color: #52a092;
+  opacity: 1;
 }

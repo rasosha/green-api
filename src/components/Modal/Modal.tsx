@@ -68,7 +68,12 @@ const Modal = () => {
           onChange={(e) => setPhoneInput(e.target.value)}
         />
         <small>Format: 1234567890</small>
-        <button type="submit">Добавить</button>
+        <button
+          className={style.button}
+          type="submit"
+        >
+          Add contact
+        </button>
         {isLoading && <Loader color="white" />}
         {error && <p className={style.error}>{error}</p>}
         <div
@@ -85,14 +90,19 @@ const Modal = () => {
                 (contact) =>
                   (contact.id.includes(phoneInput) ||
                     contact.name.toLowerCase().includes(phoneInput.toLowerCase())) &&
-                  contact.type === 'user',
+                  contact.type === 'user' &&
+                  contact.name,
               )
               .map((contact) => (
                 <div
                   key={contact.id}
                   className={style.names}
                   onClick={() => setPhoneInput(contact.id.substring(0, contact.id.length - 5))}
-                >{`${contact.name} (${contact.id.substring(0, contact.id.length - 5)})`}</div>
+                >
+                  <p></p>
+                  {`${contact.name}`}
+                  <p>{`${contact.id.substring(0, contact.id.length - 5)}`}</p>
+                </div>
               ))}
         </div>
       </form>

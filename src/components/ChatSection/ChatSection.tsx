@@ -11,6 +11,7 @@ import {
 import useHistoryStore, { HState, IMessage, Notification } from '../../utils/historyStore';
 import timeFormat from '../../utils/timeFormat';
 import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
+import { ReactComponent as Submit } from '../../assets/btns/submit.svg';
 import sound from '../../assets/notification.mp3';
 import Loader from '../Loader/Loader';
 
@@ -30,6 +31,7 @@ const ChatSection = () => {
     addNotificationToChat,
     removeNotificationFromChat,
     removeChat,
+    addChat,
   } = useHistoryStore((state: HState) => state);
   const currentChat = allChats.find((item) => item.chatId === selectedChat);
   const getHistory = async () => {
@@ -68,7 +70,6 @@ const ChatSection = () => {
 
   useEffect(() => {
     const getNotifications = async () => {
-      console.log('no new messages');
       try {
         const notification: Notification = await receiveNotifications(auth);
         if (notification) {
@@ -86,7 +87,11 @@ const ChatSection = () => {
               const audio = new Audio(sound);
               audio.play();
             }
+          } else {
+            console.log('message queued');
           }
+        } else {
+          console.log('no new messages');
         }
       } catch (error) {
         console.error(error);
@@ -108,18 +113,16 @@ const ChatSection = () => {
         deleteNotification(auth, newMessage.id);
         setNewMessage({ id: 0 });
       } else if (newMessage?.body?.chatId) {
-        addNotificationToChat({ chatId: newMessage.body.chatId });
+        console.log('new message in chat :>> ', newMessage?.body?.chatId);
+        if (allChats.findIndex((chat) => chat.chatId === newMessage?.body?.chatId) === -1) {
+          addChat(auth, { chatId: newMessage?.body?.chatId });
+        } else {
+          addNotificationToChat({ chatId: newMessage.body.chatId });
+        }
       }
     }
-  }, [
-    newMessage.id,
-    newMessage.body,
-    auth,
-    selectedChat,
-    updateChatHistory,
-    removeNotificationFromChat,
-    addNotificationToChat,
-  ]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newMessage.id, auth, selectedChat]),
     [];
 
   return (
@@ -140,7 +143,7 @@ const ChatSection = () => {
                 alt=""
                 className={S.avatar}
               />
-              <span className={S.name}>{currentChat?.name}</span>
+              <span className={S.name}>{currentChat?.name || currentChat?.chatId}</span>
             </div>
             <div className={S.btns}>
               <button
@@ -155,7 +158,7 @@ const ChatSection = () => {
                     className={S.buttonOption}
                     onClick={() => setSelectedChat('')}
                   >
-                    Закрыть чат
+                    Close chat
                   </button>
                   <button
                     className={S.buttonOption}
@@ -166,7 +169,7 @@ const ChatSection = () => {
                       }
                     }}
                   >
-                    Удалить чат
+                    Remove chat
                   </button>
                 </div>
               )}
@@ -208,11 +211,13 @@ const ChatSection = () => {
             <input
               className={S.input}
               type="text"
-              placeholder="input"
+              placeholder="Write your message"
               value={messageInput}
               onChange={(e) => setMessageInput(e.target.value)}
             />
-            <input type="submit" />
+            <button className={S.submit}>
+              <Submit />
+            </button>
           </form>
         </>
       )}

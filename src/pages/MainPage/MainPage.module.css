@@ -17,6 +17,9 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  height: 75px;
+  background-color: #202c33;
+  margin-bottom: 20px;
 }
 
 .avatar {
@@ -66,6 +69,14 @@
 }
 .buttonOption {
   align-self: flex-end;
+  margin: 5px;
+  padding: 10px;
+  background-color: #dbdbdb;
+  border: none;
+}
+.buttonOption:hover {
+  cursor: pointer;
+  background-color: #52a092;
 }
 .searchBar {
   margin: 10px;

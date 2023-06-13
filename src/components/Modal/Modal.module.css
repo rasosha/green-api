@@ -18,7 +18,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   background-color: #222;
   padding: 20px;
   border-radius: 10px;
@@ -27,19 +27,24 @@
 
 .contacts {
   position: absolute;
-  bottom: -210px;
+  bottom: -220px;
   height: 200px;
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden auto;
+  cursor: pointer;
+  padding: 10px;
 }
 
 .names {
   width: 100%;
   background-color: #444;
   text-align: center;
-  padding: 5px 0 5px 0;
+  padding: 10px 0 10px 0;
+}
+.names:hover {
+  background-color: #005c4b;
 }
 
 .names:first-child {
@@ -61,6 +66,7 @@
 .error {
   color: red;
   font-weight: 900;
+  margin-top: 10px;
 }
 
 .closeBtn {
@@ -83,4 +89,9 @@
 
 .closeBtn:hover {
   background-color: #ff0000;
+}
+
+.button {
+  padding: 10px 20px;
+  cursor: pointer;
 }
