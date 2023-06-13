@@ -1,0 +1,120 @@
+.wrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.section {
+  position: relative;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid gray;
+  z-index: 20;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  margin: 10px;
+  background-image: url('../../assets/headerLogo.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.user {
+  justify-self: start;
+  flex-grow: 1;
+}
+
+.button {
+  background: none;
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button:hover {
+  background: #333;
+}
+.button:active {
+  background: #666;
+}
+
+.btnMenu {
+  position: relative;
+}
+
+.btnMenuOptions {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+.buttonOption {
+  align-self: flex-end;
+}
+.searchBar {
+  margin: 10px;
+  background-color: #222;
+  height: 35px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  padding: 10px 10px 10px 50px;
+  font-size: large;
+  color: white;
+  position: relative;
+}
+
+.createBtn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: #005c4b;
+  border: 1px solid #aaa;
+  border-radius: 50%;
+  outline: none;
+  padding: 10px;
+}
+
+.createBtnIcon {
+  stroke: white;
+}
+
+.createBtn:hover {
+  background-color: #008d73;
+}
+
+.createBtn:active {
+  transform: translate(1px, 1px);
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.chatItem:hover {
+  background-color: #202c33;
+}
+
+.active {
+  background-color: #2a3942;
+}

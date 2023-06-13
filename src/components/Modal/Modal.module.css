@@ -1,0 +1,85 @@
+.modal {
+  backdrop-filter: blur(10px) brightness(50%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #222;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.contacts {
+  position: absolute;
+  bottom: -210px;
+  height: 200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden auto;
+}
+
+.names {
+  width: 100%;
+  background-color: #444;
+  text-align: center;
+  padding: 5px 0 5px 0;
+}
+
+.names:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.names:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.input {
+  padding: 10px;
+  font-size: larger;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  font-weight: 900;
+}
+
+.closeBtn {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 50%;
+  background-color: #760202;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  background-color: #ff0000;
+}
