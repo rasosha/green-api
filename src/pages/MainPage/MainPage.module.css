@@ -1,11 +1,10 @@
-.wrapper {
-  display: flex;
-  height: 100%;
-  width: 100%;
+.mainWrapper {
+  display: grid;
+  background-color: #111b21;
+  box-shadow: 0 0 12px 0px black;
 }
 .section {
   position: relative;
-  width: 500px;
   display: flex;
   flex-direction: column;
   border-right: 1px solid gray;
@@ -20,6 +19,7 @@
   height: 75px;
   background-color: #202c33;
   margin-bottom: 20px;
+  box-shadow: 0 2px 7px -5px black;
 }
 
 .avatar {
@@ -73,22 +73,16 @@
   padding: 10px;
   background-color: #dbdbdb;
   border: none;
+  box-shadow: 0 0 24px 0px black;
+  border-radius: 10px;
 }
 .buttonOption:hover {
   cursor: pointer;
   background-color: #52a092;
 }
-.searchBar {
-  margin: 10px;
-  background-color: #222;
-  height: 35px;
-  border-radius: 10px;
-  outline: none;
-  border: none;
-  padding: 10px 10px 10px 50px;
-  font-size: large;
-  color: white;
-  position: relative;
+
+.opened {
+  background-color: #707070;
 }
 
 .createBtn {
@@ -98,7 +92,7 @@
   width: 50px;
   height: 50px;
   background-color: #005c4b;
-  border: 1px solid #aaa;
+  border: none;
   border-radius: 50%;
   outline: none;
   padding: 10px;
@@ -128,4 +122,47 @@
 
 .active {
   background-color: #2a3942;
+}
+
+@media (min-width: 768px) {
+  .mainWrapper {
+    grid-template-columns: 33% 1fr;
+    height: calc(100vh - 100px);
+    width: calc(100vw - 100px);
+    max-width: 1024px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainWrapper {
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+    width: 100vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainWrapper {
+    grid-template-columns: 0 auto;
+    grid-template-rows: 0 auto;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .chatListOpened {
+    grid-column: 1/-1;
+    grid-row: 1/-1;
+    height: 100vh;
+  }
+
+  .chatListClosed > * {
+    display: none;
+    grid-column: 0;
+  }
+  .chatListClosed {
+    display: none;
+    grid-column: 0;
+  }
 }

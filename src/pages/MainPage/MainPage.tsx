@@ -38,16 +38,18 @@ const MainPage = () => {
 
   return (
     <main
-      className={S.wrapper}
+      className={S.mainWrapper}
       onClick={() => isBtnMenuOpen && setIsBtnMenuOpen(false)}
     >
-      <section className={S.section}>
+      <section
+        className={`${S.section}${!selectedChat ? ` ${S.chatListOpened}` : ` ${S.chatListClosed}`}`}
+      >
         <header className={S.header}>
           <div className={S.avatar} />
           <p className={S.user}>Instance: {auth.idInstance}</p>
           <div className={S.btnMenu}>
             <button
-              className={S.button}
+              className={`${S.button}${!isBtnMenuOpen ? '' : ' ' + S.opened}`}
               onClick={() => setIsBtnMenuOpen(!isBtnMenuOpen)}
             >
               <Menu />
@@ -95,7 +97,6 @@ const MainPage = () => {
           <Add className={S.createBtnIcon} />
         </button>
       </section>
-
       <ChatSection />
     </main>
   );

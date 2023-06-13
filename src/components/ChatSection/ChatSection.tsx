@@ -12,6 +12,7 @@ import useHistoryStore, { HState, IMessage, Notification } from '../../utils/his
 import timeFormat from '../../utils/timeFormat';
 import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
 import { ReactComponent as Submit } from '../../assets/btns/submit.svg';
+import { ReactComponent as Back } from '../../assets/btns/back.svg';
 import sound from '../../assets/notification.mp3';
 import Loader from '../Loader/Loader';
 
@@ -127,7 +128,7 @@ const ChatSection = () => {
 
   return (
     <section
-      className={S.wrapper}
+      className={`${S.wrapper}${selectedChat ? ` ${S.chatOpened}` : ` ${S.chatClosed}`}`}
       onClick={() => isBtnMenuOpen && setIsBtnMenuOpen(false)}
     >
       {selectedChat === '' ? (
@@ -137,6 +138,12 @@ const ChatSection = () => {
       ) : (
         <>
           <header className={S.header}>
+            <button
+              className={S.backBtn}
+              onClick={() => setSelectedChat('')}
+            >
+              <Back />
+            </button>
             <div className={S.info}>
               <img
                 src={currentChat?.avatar}
@@ -147,7 +154,7 @@ const ChatSection = () => {
             </div>
             <div className={S.btns}>
               <button
-                className={S.button}
+                className={`${S.button}${!isBtnMenuOpen ? '' : ' ' + S.opened}`}
                 onClick={() => setIsBtnMenuOpen(!isBtnMenuOpen)}
               >
                 <Menu />
