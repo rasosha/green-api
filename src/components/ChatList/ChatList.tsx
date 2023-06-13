@@ -7,10 +7,8 @@ const ChatList: React.FC = () => {
   const { isLoading } = useStore((state: ZState) => state);
   const { allChats } = useHistoryStore((state: HState) => state);
   const { selectedChat, setSelectedChat } = useStore((state: ZState) => state);
-
   const handleClick = (chatId: string) => {
     if (!isLoading) {
-      // console.log('chat:>> ', chatId);
       if (selectedChat === chatId) {
         console.log('already selected');
       } else {
@@ -29,9 +27,10 @@ const ChatList: React.FC = () => {
             onClick={() => handleClick(item.chatId)}
           >
             <img
-              src={item.avatar}
-              alt="1"
+              src={item.avatar || './src/assets/defaultAvatar.png'}
+              alt="person img"
               className={S.avatar}
+              style={{ backgroundColor: '#005C4B' }}
             />
             <p>{item.name ? item.name : item.chatId}</p>
             {item.notification && <div className={S.newMsg}></div>}
