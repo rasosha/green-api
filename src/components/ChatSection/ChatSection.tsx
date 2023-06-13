@@ -12,6 +12,7 @@ import useHistoryStore, { HState, IMessage, Notification } from '../../utils/his
 import timeFormat from '../../utils/timeFormat';
 import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
 import sound from '../../assets/notification.mp3';
+import Loader from '../Loader/Loader';
 
 interface NewMessage {
   id: number;
@@ -19,6 +20,7 @@ interface NewMessage {
 }
 const ChatSection = () => {
   const [messageInput, setMessageInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [isBtnMenuOpen, setIsBtnMenuOpen] = useState(false);
   const [newMessage, setNewMessage] = useState<NewMessage>({ id: 0 });
   const { auth, selectedChat, setSelectedChat } = useStore((state: ZState) => state);
@@ -31,6 +33,7 @@ const ChatSection = () => {
   } = useHistoryStore((state: HState) => state);
   const currentChat = allChats.find((item) => item.chatId === selectedChat);
   const getHistory = async () => {
+    setIsLoading(true);
     if (selectedChat) {
       const h = allChats.find((item) => {
         item.chatId === selectedChat;
@@ -38,8 +41,10 @@ const ChatSection = () => {
       if (h === undefined) {
         const his = await getChatHistory(auth, selectedChat, 20);
         updateChatHistory({ chatId: selectedChat, history: his });
+        setIsLoading(false);
         return his;
       } else {
+        setIsLoading(false);
         return h;
       }
     }
@@ -168,21 +173,31 @@ const ChatSection = () => {
             </div>
           </header>
           <div className={S.messages}>
-            {currentChat?.history?.length !== 0 ? (
-              currentChat?.history?.map((msg: IMessage, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    className={`${msg?.type === 'outgoing' ? S.outgoing : S.incoming} ${S.message}`}
-                  >
-                    <p>{msg.textMessage}</p>
-                    {!msg.textMessage && <span className={S.typeMessage}>{msg.typeMessage}</span>}
-                    {msg.timestamp && <p className={S.time}>{timeFormat(msg.timestamp)}</p>}
-                  </div>
-                );
-              })
+            {isLoading ? (
+              <Loader color="white" />
             ) : (
-              <div className={S.empty}>No message yet.</div>
+              <>
+                {currentChat?.history?.length !== 0 ? (
+                  currentChat?.history?.map((msg: IMessage, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`${msg?.type === 'outgoing' ? S.outgoing : S.incoming} ${
+                          S.message
+                        }`}
+                      >
+                        <p>{msg.textMessage}</p>
+                        {!msg.textMessage && (
+                          <span className={S.typeMessage}>{msg.typeMessage}</span>
+                        )}
+                        {msg.timestamp && <p className={S.time}>{timeFormat(msg.timestamp)}</p>}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className={S.empty}>No message yet.</div>
+                )}
+              </>
             )}
           </div>
 

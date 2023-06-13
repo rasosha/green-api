@@ -26,8 +26,7 @@ const AuthPage = () => {
       };
       setAuth(auth);
       localStorage.auth = JSON.stringify(authInput);
-      const settings = await setSettings(auth);
-      console.log('settings :>> ', settings);
+      await setSettings(auth);
       navigate('/main');
     } else setError(stateInstance);
     setIsLoading(false);
