@@ -97,7 +97,6 @@ const useHistoryStore = create<HState>((set, get) => ({
     const tempAllChats = get().allChats;
     const contactInfo = await getContactInfo(auth, chatId);
     tempAllChats.push(contactInfo)
-    console.log('contactInfo :>> ', contactInfo);
     try {
       localStorage.setItem('allChats', JSON.stringify(tempAllChats.map((item) => { return { chatId: item.chatId, name: item.name, avatar: item.avatar } })));
     } catch (err) {

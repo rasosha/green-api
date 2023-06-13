@@ -24,7 +24,6 @@ export const setSettings = async (auth: Auth) => {
       return settings;
     }
   } catch (error) {
-    // console.log('getStateInstance error :>> ', error);
     return 'check your credentials';
   }
 }
@@ -43,13 +42,11 @@ export const getStateInstance = async (auth: Auth) => {
       return state.stateInstance;
     }
   } catch (error) {
-    // console.log('getStateInstance error :>> ', error);
     return 'check your credentials';
   }
 }
 export const getChatHistory = async (auth: Auth, chatId: string, count: number) => {
   const method = 'getChatHistory'
-  console.log('!!! getChatHistory request');
   try {
     const response = await fetch(`${baseUrl}/waInstance${auth.idInstance}/${method}/${auth.apiTokenInstance}`, {
       method: 'POST',
@@ -223,8 +220,6 @@ export const getContacts = async (auth: Auth) => {
     })
     if (response.ok) {
       return await response.json();
-    } else {
-      console.log(await response.json());
     }
   } catch (error) {
     console.log('getMessage error :>> ', error);
