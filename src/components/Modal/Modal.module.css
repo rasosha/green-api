@@ -25,7 +25,9 @@
   position: relative;
   box-shadow: 0 0 12px 0px black;
 }
-
+.contactsDiv {
+  border-radius: 10px;
+}
 .contacts {
   position: absolute;
   bottom: -220px;
@@ -35,7 +37,8 @@
   flex-direction: column;
   overflow: hidden auto;
   cursor: pointer;
-  padding: 10px;
+  padding: -10px;
+  border-radius: 10px;
 }
 
 .names {
@@ -96,4 +99,25 @@
 .button {
   padding: 10px 20px;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .contacts {
+    top: -220px;
+    justify-content: end;
+    flex-direction: column-reverse;
+  }
+  .names:first-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+
+  .names:last-child {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 }
