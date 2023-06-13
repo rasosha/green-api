@@ -50,6 +50,7 @@ const ChatSection = () => {
         getHistory();
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedChat]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

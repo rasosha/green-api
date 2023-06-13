@@ -21,6 +21,7 @@ const Modal = () => {
 
   useEffect(() => {
     getConts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
