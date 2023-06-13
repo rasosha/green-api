@@ -27,7 +27,7 @@ const ChatList: React.FC = () => {
             onClick={() => handleClick(item.chatId)}
           >
             <img
-              src={item.avatar || './src/assets/defaultAvatar.png'}
+              src={item.avatar || './defaultAvatar.png'}
               alt="person img"
               className={S.avatar}
               style={{ backgroundColor: '#005C4B' }}
