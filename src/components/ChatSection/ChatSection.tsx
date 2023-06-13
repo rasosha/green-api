@@ -87,6 +87,9 @@ const ChatSection = () => {
             if (getMsg.type === 'incoming') {
               const audio = new Audio(sound);
               audio.play();
+              if (getMsg.chatId) {
+                addNotificationToChat({ chatId: getMsg.chatId });
+              }
             }
           } else {
             console.log('message queued');
@@ -152,7 +155,7 @@ const ChatSection = () => {
               />
               <span className={S.name}>{currentChat?.name || currentChat?.chatId}</span>
             </div>
-            <div className={S.btns}>
+            <div className={S.btnMenu}>
               <button
                 className={`${S.button}${!isBtnMenuOpen ? '' : ' ' + S.opened}`}
                 onClick={() => setIsBtnMenuOpen(!isBtnMenuOpen)}

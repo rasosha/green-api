@@ -1,76 +1,8 @@
-.wrapper {
-  position: relative;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid gray;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  height: 75px;
-  text-transform: uppercase;
-}
-
 .avatar {
   height: 40px;
   width: 40px;
   margin: 10px;
   border-radius: 50%;
-}
-
-.buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.button {
-  height: 40px;
-  width: 40px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.searchBar {
-  margin: 10px;
-  background-color: #222;
-  height: 35px;
-  border-radius: 10px;
-  outline: none;
-  border: none;
-  padding: 10px 10px 10px 50px;
-  font-size: large;
-  color: white;
-  position: relative;
-}
-
-.createBtn {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 50px;
-  height: 50px;
-  background-color: #005c4b;
-  border: 1px solid #aaa;
-  border-radius: 50%;
-  outline: none;
-  padding: 10px;
-}
-
-.createBtnIcon {
-  stroke: white;
-}
-
-.createBtn:hover {
-  background-color: #008d73;
-}
-
-.createBtn:active {
-  transform: translate(1px, 1px);
 }
 
 .chatItem {

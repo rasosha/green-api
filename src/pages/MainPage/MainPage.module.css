@@ -61,6 +61,7 @@
 }
 
 .btnMenuOptions {
+  margin-top: 10px;
   position: absolute;
   right: 0;
   display: flex;
@@ -75,6 +76,7 @@
   border: none;
   box-shadow: 0 0 24px 0px black;
   border-radius: 10px;
+  z-index: 50;
 }
 .buttonOption:hover {
   cursor: pointer;

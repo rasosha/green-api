@@ -45,12 +45,6 @@
   margin: 20px 0px 20px 20px;
 }
 
-.btns {
-  display: flex;
-  justify-self: end;
-  margin-left: auto;
-  position: relative;
-}
 .backBtn {
   display: none;
 }
@@ -202,8 +196,11 @@
 
 .btnMenu {
   position: relative;
+  justify-self: end;
+  margin-left: auto;
 }
 .btnMenuOptions {
+  margin-top: 10px;
   position: absolute;
   right: 0;
   display: flex;
@@ -218,6 +215,7 @@
   border: none;
   box-shadow: 0 0 24px 0px black;
   border-radius: 10px;
+  z-index: 50;
 }
 .buttonOption:hover {
   cursor: pointer;
