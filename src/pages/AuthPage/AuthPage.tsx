@@ -10,9 +10,7 @@ const AuthPage = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { auth, setAuth } = useStore((state: ZState) => state);
-  const [authInput, setAuthInput] = useState(
-    localStorage.auth ? JSON.parse(localStorage.auth) : auth,
-  );
+  const [authInput, setAuthInput] = useState(localStorage.auth ? JSON.parse(localStorage.auth) : auth);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

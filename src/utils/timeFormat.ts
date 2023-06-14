@@ -8,4 +8,4 @@ const timeFormat = (time: number | undefined): string => {
   return '';
 };
 
-export default timeFormat
+export default timeFormat;

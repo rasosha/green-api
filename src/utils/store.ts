@@ -6,13 +6,13 @@ export interface AuthProps {
 }
 
 export interface Contact {
-  id: string,
-  name: string,
-  type: "user" | "group",
+  id: string;
+  name: string;
+  type: 'user' | 'group';
 }
 
 export interface Auth {
-  stateInstance: "notAuthorized" | "authorized" | "blocked" | "sleepMode" | "starting"
+  stateInstance: 'notAuthorized' | 'authorized' | 'blocked' | 'sleepMode' | 'starting';
   idInstance: string;
   apiTokenInstance: string;
 }
@@ -23,7 +23,7 @@ export interface ZState {
   setIsModal: (value: boolean) => void;
   selectedChat: string;
   setSelectedChat: (value: string) => void;
-  auth: Auth
+  auth: Auth;
   setAuth: (value: Auth) => void;
   contacts: Contact[];
   setContacts: (value: Contact[]) => void;
@@ -36,7 +36,7 @@ const useStore = create<ZState>((set) => ({
   allChats: [],
   contacts: [],
   auth: {
-    stateInstance: "notAuthorized",
+    stateInstance: 'notAuthorized',
     idInstance: '',
     apiTokenInstance: '',
   },
@@ -70,7 +70,6 @@ const useStore = create<ZState>((set) => ({
       ...state,
       selectedChat: value,
     })),
-
 }));
 
 export default useStore;

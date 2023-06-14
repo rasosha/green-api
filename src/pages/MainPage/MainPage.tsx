@@ -9,9 +9,7 @@ import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
 import useHistoryStore, { HState } from '../../utils/historyStore';
 
 const MainPage = () => {
-  const { auth, setAuth, setIsModal, selectedChat, setSelectedChat } = useStore(
-    (state: ZState) => state,
-  );
+  const { auth, setAuth, setIsModal, selectedChat, setSelectedChat } = useStore((state: ZState) => state);
   const { allChats, removeChat } = useHistoryStore((state: HState) => state);
   const navigate = useNavigate();
   const [isBtnMenuOpen, setIsBtnMenuOpen] = useState(false);
@@ -41,9 +39,7 @@ const MainPage = () => {
       className={S.mainWrapper}
       onClick={() => isBtnMenuOpen && setIsBtnMenuOpen(false)}
     >
-      <section
-        className={`${S.section}${!selectedChat ? ` ${S.chatListOpened}` : ` ${S.chatListClosed}`}`}
-      >
+      <section className={`${S.section}${!selectedChat ? ` ${S.chatListOpened}` : ` ${S.chatListClosed}`}`}>
         <header className={S.header}>
           <div className={S.avatar} />
           <p className={S.user}>Instance: {auth.idInstance}</p>

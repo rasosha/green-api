@@ -1,7 +1,14 @@
 import { FormEvent, useEffect, useState } from 'react';
 import useStore, { ZState } from '../../utils/store';
 import S from './ChatSection.module.css';
-import { deleteNotification, getChatHistory, getMessage, readChat, receiveNotifications, sendMessage } from '../../utils/apiCalls';
+import {
+  deleteNotification,
+  getChatHistory,
+  getMessage,
+  readChat,
+  receiveNotifications,
+  sendMessage,
+} from '../../utils/apiCalls';
 import useHistoryStore, { ChatInstance, HState, IMessage, Notification } from '../../utils/historyStore';
 import timeFormat from '../../utils/timeFormat';
 import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
@@ -178,9 +185,9 @@ const ChatSection = () => {
                       >
                         <p className={S.messageText}>
                           {msg.textMessage || (
-                            <div className={S.loader}>
+                            <span className={S.loader}>
                               <Loader color="white" />
-                            </div>
+                            </span>
                           )}
                         </p>
                         {!msg.textMessage && <span className={S.typeMessage}>{msg.typeMessage}</span>}
