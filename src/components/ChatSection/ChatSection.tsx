@@ -1,14 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import useStore, { ZState } from '../../utils/store';
 import S from './ChatSection.module.css';
-import {
-  deleteNotification,
-  getChatHistory,
-  getMessage,
-  receiveNotifications,
-  sendMessage,
-} from '../../utils/apiCalls';
-import useHistoryStore, { HState, IMessage, Notification } from '../../utils/historyStore';
+import { deleteNotification, getChatHistory, getMessage, readChat, receiveNotifications, sendMessage } from '../../utils/apiCalls';
+import useHistoryStore, { ChatInstance, HState, IMessage, Notification } from '../../utils/historyStore';
 import timeFormat from '../../utils/timeFormat';
 import { ReactComponent as Menu } from '../../assets/btns/menu.svg';
 import { ReactComponent as Submit } from '../../assets/btns/submit.svg';
@@ -16,84 +10,85 @@ import { ReactComponent as Back } from '../../assets/btns/back.svg';
 import sound from '../../assets/notification.mp3';
 import Loader from '../Loader/Loader';
 
-interface NewMessage {
-  id: number;
-  body?: IMessage;
-}
 const ChatSection = () => {
   const [messageInput, setMessageInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isBtnMenuOpen, setIsBtnMenuOpen] = useState(false);
-  const [newMessage, setNewMessage] = useState<NewMessage>({ id: 0 });
   const { auth, selectedChat, setSelectedChat } = useStore((state: ZState) => state);
-  const {
-    allChats,
-    updateChatHistory,
-    addNotificationToChat,
-    removeNotificationFromChat,
-    removeChat,
-    addChat,
-  } = useHistoryStore((state: HState) => state);
-  const currentChat = allChats.find((item) => item.chatId === selectedChat);
-  const getHistory = async () => {
-    setIsLoading(true);
-    if (selectedChat) {
-      const h = allChats.find((item) => {
-        item.chatId === selectedChat;
-      });
-      if (h === undefined) {
-        const his = await getChatHistory(auth, selectedChat, 20);
-        updateChatHistory({ chatId: selectedChat, history: his });
-        setIsLoading(false);
-        return his;
-      } else {
-        setIsLoading(false);
-        return h;
-      }
+  const { allChats, updateChatInstance, removeChat, addChat } = useHistoryStore((state: HState) => state);
+
+  // const currentChat = allChats.find((item) => item.chatId === selectedChat);
+  const [currentChat, setCurrentChat] = useState<ChatInstance>();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setMessageInput('');
+    const sentMessage = await sendMessage(auth, selectedChat, messageInput);
+    const newMessage: IMessage = { chatId: selectedChat, idMessage: sentMessage.idMessage, type: 'outgoing' };
+    if (newMessage.chatId) {
+      updateChatInstance({ chatId: newMessage.chatId, history: [newMessage] });
     }
   };
 
   useEffect(() => {
-    if (selectedChat) {
-      if (currentChat?.history === undefined) {
-        getHistory();
+    const requestHistory = async ({ chatId }: { chatId: string }) => {
+      const chatInstanceInStore = allChats.find((item) => {
+        if (item.chatId === chatId) {
+          return item;
+        }
+      });
+      if (chatInstanceInStore) {
+        const storedChatHistory = chatInstanceInStore.history;
+        if (storedChatHistory) {
+          return storedChatHistory;
+        } else if (!storedChatHistory) {
+          setIsLoading(true);
+          const newChatHistory = await getChatHistory(auth, selectedChat, 20);
+          updateChatInstance({ chatId: selectedChat, history: newChatHistory });
+          setIsLoading(false);
+          return newChatHistory;
+        }
       }
+    };
+    if (!selectedChat) {
+      setCurrentChat({ chatId: '' });
+    }
+    if (selectedChat) {
+      updateChatInstance({ chatId: selectedChat, notification: false });
+      requestHistory({ chatId: selectedChat });
+      const currentChat = allChats.find((item) => item.chatId === selectedChat);
+      setCurrentChat(currentChat);
+      readChat(auth, selectedChat);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedChat]);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const result = await sendMessage(auth, selectedChat, messageInput);
-    console.log(result);
-    setMessageInput('');
-  };
+  }, [selectedChat, updateChatInstance]);
 
   useEffect(() => {
     const getNotifications = async () => {
       try {
         const notification: Notification = await receiveNotifications(auth);
         if (notification) {
-          if (notification.receiptId !== newMessage.id) {
-            const getMsg: IMessage = await getMessage(
-              auth,
-              notification.body.senderData.chatId,
-              notification.body.idMessage,
-            );
-            setNewMessage({
-              id: notification.receiptId,
-              body: getMsg,
-            });
-            if (getMsg.type === 'incoming') {
+          const newMessage: IMessage = await getMessage(auth, notification.body.senderData.chatId, notification.body.idMessage);
+          if (newMessage.chatId === selectedChat) {
+            updateChatInstance({ chatId: newMessage.chatId, history: [newMessage] });
+            if (newMessage.type === 'incoming') {
               const audio = new Audio(sound);
               audio.play();
-              if (getMsg.chatId) {
-                addNotificationToChat({ chatId: getMsg.chatId });
-              }
             }
-          } else {
-            console.log('message queued');
+          } else if (newMessage.chatId !== selectedChat) {
+            const chatInstance = allChats.find((chatInstance) => chatInstance.chatId === newMessage.chatId);
+            if (chatInstance && newMessage.chatId) {
+              updateChatInstance({ chatId: newMessage.chatId, notification: true });
+              if (chatInstance?.history) {
+                updateChatInstance({ chatId: newMessage.chatId, history: [newMessage] });
+              }
+            } else if (!chatInstance && newMessage.chatId) {
+              addChat(auth, { chatId: newMessage.chatId, notification: true });
+            }
+            const audio = new Audio(sound);
+            audio.play();
           }
+          deleteNotification(auth, notification.receiptId);
         } else {
           console.log('no new messages');
         }
@@ -102,31 +97,12 @@ const ChatSection = () => {
       }
     };
 
-    if (newMessage.id === 0) {
-      const intervalId = setInterval(getNotifications, 5000);
-      return () => {
-        clearInterval(intervalId);
-      };
-    } else {
-      if (newMessage?.body?.chatId === selectedChat) {
-        updateChatHistory({
-          chatId: newMessage.body.chatId,
-          history: [newMessage.body],
-        });
-        removeNotificationFromChat({ chatId: newMessage.body.chatId });
-        deleteNotification(auth, newMessage.id);
-        setNewMessage({ id: 0 });
-      } else if (newMessage?.body?.chatId) {
-        console.log('new message in chat :>> ', newMessage?.body?.chatId);
-        if (allChats.findIndex((chat) => chat.chatId === newMessage?.body?.chatId) === -1) {
-          addChat(auth, { chatId: newMessage?.body?.chatId });
-        } else {
-          addNotificationToChat({ chatId: newMessage.body.chatId });
-        }
-      }
-    }
+    const intervalId = setInterval(getNotifications, 5000);
+    return () => {
+      clearInterval(intervalId);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newMessage.id, auth, selectedChat]),
+  }, [auth, selectedChat]),
     [];
 
   return (
@@ -149,11 +125,14 @@ const ChatSection = () => {
             </button>
             <div className={S.info}>
               <img
-                src={currentChat?.avatar}
+                src={currentChat?.avatar || './defaultAvatar.png'}
                 alt=""
                 className={S.avatar}
               />
-              <span className={S.name}>{currentChat?.name || currentChat?.chatId}</span>
+              <div className={S.nameDiv}>
+                <p className={S.name}>{currentChat?.name || currentChat?.chatId}</p>
+                {currentChat?.name && <p className={S.chatId}>{currentChat?.chatId}</p>}
+              </div>
             </div>
             <div className={S.btnMenu}>
               <button
@@ -195,14 +174,16 @@ const ChatSection = () => {
                     return (
                       <div
                         key={index}
-                        className={`${msg?.type === 'outgoing' ? S.outgoing : S.incoming} ${
-                          S.message
-                        }`}
+                        className={`${msg?.type === 'outgoing' ? S.outgoing : S.incoming} ${S.message}`}
                       >
-                        <p>{msg.textMessage}</p>
-                        {!msg.textMessage && (
-                          <span className={S.typeMessage}>{msg.typeMessage}</span>
-                        )}
+                        <p className={S.messageText}>
+                          {msg.textMessage || (
+                            <div className={S.loader}>
+                              <Loader color="white" />
+                            </div>
+                          )}
+                        </p>
+                        {!msg.textMessage && <span className={S.typeMessage}>{msg.typeMessage}</span>}
                         {msg.timestamp && <p className={S.time}>{timeFormat(msg.timestamp)}</p>}
                       </div>
                     );
@@ -221,11 +202,15 @@ const ChatSection = () => {
             <input
               className={S.input}
               type="text"
+              required
               placeholder="Write your message"
               value={messageInput}
               onChange={(e) => setMessageInput(e.target.value)}
             />
-            <button className={S.submit}>
+            <button
+              className={S.submit}
+              disabled={!messageInput.trim()}
+            >
               <Submit />
             </button>
           </form>

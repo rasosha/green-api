@@ -225,4 +225,30 @@ export const getContacts = async (auth: Auth) => {
     console.log('getMessage error :>> ', error);
     return null;
   }
+
+}
+
+export const readChat = async (auth: Auth, chatId: string) => {
+  const method = 'readChat'
+  try {
+    const response = await fetch(`${baseUrl}/waInstance${auth.idInstance}/${method}/${auth.apiTokenInstance}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+
+      body: JSON.stringify(
+        {
+          chatId
+        }
+      )
+    })
+    if (response.ok) {
+      return await response.json();
+    }
+  } catch (error) {
+    console.log('getMessage error :>> ', error);
+    return null;
+  }
+
 }

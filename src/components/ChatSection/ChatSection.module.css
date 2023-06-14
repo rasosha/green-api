@@ -24,8 +24,8 @@
 }
 
 .header {
-  height: 75px;
-  width: calc(100%);
+  min-height: 70px;
+  width: 100%;
   display: flex;
   align-items: center;
   background-color: #202c33;
@@ -42,9 +42,22 @@
 .avatar {
   width: 50px;
   border-radius: 50%;
-  margin: 20px 0px 20px 20px;
+  margin: 10px 0px 10px 20px;
+}
+.nameDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+.name {
+  font-size: 20px;
 }
 
+.chatId {
+  font-size: 14px;
+  opacity: 0.5;
+}
 .backBtn {
   display: none;
 }
@@ -101,6 +114,11 @@
   margin: auto;
 }
 
+.loader {
+  display: flex;
+  height: 10px;
+}
+
 .messages {
   width: 100%;
   height: 100%;
@@ -122,6 +140,10 @@
   justify-content: center;
   position: relative;
   box-shadow: 0 0 12px -8px black;
+}
+
+.messageText {
+  word-break: break-all;
 }
 
 .outgoing {
@@ -164,14 +186,6 @@
   align-self: flex-end;
   margin: 0 -2px -4px 5px;
 }
-/* 
-.outgoing .time {
-  place-self: end;
-}
-
-.incoming .time {
-  place-self: start;
-} */
 
 .typeMessage {
   opacity: 0.5;
@@ -240,5 +254,9 @@
 
 .submit:hover {
   background-color: #52a092;
-  opacity: 1;
+}
+
+.submit:disabled {
+  background: none;
+  opacity: 0.1;
 }
